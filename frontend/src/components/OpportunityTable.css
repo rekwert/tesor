@@ -1,0 +1,395 @@
+/* frontend/src/components/OpportunityTable.css */
+
+/* ИСХОДНЫЕ СТИЛИ (СВЕТЛАЯ ТЕМА ИЛИ ОБЩИЕ) */
+.table-wrapper {
+    max-height: 600px; /* Максимальная высота для скролла */
+    overflow-y: auto; /* Включаем вертикальный скролл */
+    border-radius: 8px;
+    background: #fff; /* <-- ФОН В СВЕТЛОЙ ТЕМЕ */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* <-- ТЕНЬ В СВЕТЛОЙ ТЕМЕ */
+    margin: 20px 0;
+    overflow-x: auto; /* Включаем горизонтальный скролл, если необходимо */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.dark-theme .table-wrapper {
+    background: #1a1a1a; /* <-- ТЕМНЫЙ ФОН */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* <-- ТЕМНАЯ ТЕНЬ */
+}
+
+
+table {
+    width: 100%; /* Таблица занимает всю ширину контейнера */
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+    color: #333; /* <-- ЦВЕТ ТЕКСТА В СВЕТЛОЙ ТЕМЕ */
+    font-size: 0.85em;
+    table-layout: fixed; /* Задаем фиксированную разметку таблицы */
+}
+body.dark-theme table {
+    color: #b0b0b0; /* <-- СВЕТЛЫЙ ЦВЕТ ТЕКСТА */
+}
+
+th, td {
+    padding: 8px 10px; /* Увеличил padding */
+    text-align: left;
+    border-bottom: 1px solid #eee; /* <-- ГРАНИЦА В СВЕТЛОЙ ТЕМЕ */
+    white-space: nowrap; /* Предотвращаем перенос текста по умолчанию */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляем многоточие, если текст не помещается */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+}
+body.dark-theme th,
+body.dark-theme td {
+    border-bottom: 1px solid #2d2d2d; /* <-- ТЕМНАЯ ГРАНИЦА */
+}
+
+
+/* --- Задаем ширину колонок ПО КЛАССАМ --- */
+.col-buy-exchange, .col-sell-exchange { width: 100px; }
+.col-symbol { width: auto; min-width: 150px; } /* Тикер - гибкая ширина */
+.col-gross-profit-pct { width: 80px; }
+.col-net-profit { width: 120px; } /* Net % (увеличена ширина для % + Quote) */
+.col-volume-base { width: 100px; } /* Объем (Б.вал) - увеличена ширина */
+.col-fees-quote { width: 100px; } /* Комиссии (Ц.вал) - добавлена колонка */
+.col-networks { width: 100px; } /* Сети */
+.col-timestamp { width: 80px; } /* Время Данных */
+.col-time-since-update { width: 100px; } /* С Обновления */
+.col-actions { width: 50px; text-align: center; } /* Действия */
+
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Ниже navbar, выше содержимого таблицы */
+    background: #f8f8f8; /* <-- ФОН ЗАГОЛОВКОВ В СВЕТЛОЙ ТЕМЕ */
+    color: #555; /* <-- ЦВЕТ ТЕКСТА ЗАГОЛОВКОВ В СВЕТЛОЙ ТЕМЕ */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    line-height: 1.3; /* Увеличил для читаемости */
+    height: auto;
+    min-height: 40px; /* Минимальная высота для двух строк текста */
+    white-space: normal; /* Разрешаем перенос текста в заголовках */
+    text-overflow: clip;
+    vertical-align: top; /* Выравнивание текста в заголовках вверх */
+}
+
+body.dark-theme thead th {
+    background: #2a2a2a; /* <-- ТЕМНЫЙ ФОН ЗАГОЛОВКОВ */
+    color: #b0b0b0; /* <-- СВЕТЛЫЙ ЦВЕТ ТЕКСТА ЗАГОЛОВКОВ */
+}
+
+
+thead th:hover:not(.filter-cell):not(.col-actions) { /* Не меняем фон при наведении на фильтр-ячейку и колонку действий */
+    background: #e9e9e9; /* <-- ФОН ПРИ НАВЕДЕНИИ В СВЕТЛОЙ ТЕМЕ */
+    cursor: pointer;
+}
+body.dark-theme thead th:hover:not(.filter-cell):not(.col-actions) {
+    background: #333; /* <-- ФОН ПРИ НАВЕДЕНИИ В ТЕМНОЙ ТЕМЕ */
+}
+
+
+th.sort-asc::after {
+    content: ' ↑'; /* Добавляем пробел для читаемости */
+    /* margin-left: 0; */ /* Убираем margin, если добавили пробел */
+    font-size: 0.9em;
+    color: #4a90e2; /* Синий */
+}
+
+th.sort-desc::after {
+    content: ' ↓'; /* Добавляем пробел */
+     /* margin-left: 0; */
+    font-size: 0.9em;
+    color: #4a90e2; /* Синий */
+}
+
+thead tr:nth-child(2) { /* Строка с фильтрами */
+    background: #f1f1f1; /* <-- ФОН СТРОКИ ФИЛЬТРОВ В СВЕТЛОЙ ТЕМЕ */
+}
+body.dark-theme thead tr:nth-child(2) {
+    background: #222; /* <-- ФОН СТРОКИ ФИЛЬТРОВ В ТЕМНОЙ ТЕМЕ */
+}
+
+
+thead tr:nth-child(2) td {
+    padding: 4px 0px; /* Убираем padding для ячейки, чтобы filter-wrapper управлял им */
+    border-bottom: 1px solid #ccc; /* Отдельная граница для строки фильтров */
+}
+body.dark-theme thead tr:nth-child(2) td {
+    border-bottom-color: #3d3d3d; /* Более темная граница для строки фильтров */
+}
+
+
+.filter-cell {
+    padding: 0 !important; /* Убираем стандартный padding для ячейки фильтра */
+    height: 30px; /* Фиксированная высота для строки фильтров */
+    vertical-align: middle; /* Выравниваем содержимое по центру */
+}
+
+.filter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff; /* <-- ФОН ОБЕРТКИ ФИЛЬТРА В СВЕТЛОЙ ТЕМЕ */
+    border: 1px solid #ccc; /* <-- ГРАНИЦА ОБЕРТКИ ФИЛЬТРА В СВЕТЛОЙ ТЕМЕ */
+    border-radius: 4px;
+    padding: 2px 6px;
+    width: auto; /* Ширина определяется контейнером td */
+    box-sizing: border-box;
+    margin: 0 4px; /* Небольшой отступ слева и справа внутри ячейки */
+}
+body.dark-theme .filter-wrapper {
+    background: #2d2d2d; /* <-- ФОН ОБЕРТКИ ФИЛЬТРА В ТЕМНОЙ ТЕМЕ */
+    border: 1px solid #3d3d3d; /* <-- ГРАНИЦА ОБЕРТКИ ФИЛЬТРА В ТЕМНОЙ ТЕМЕ */
+}
+
+
+.filter-icon {
+    color: #6b7280;
+    font-size: 0.8em;
+    flex-shrink: 0; /* Не сжиматься */
+}
+
+.filter-wrapper input {
+    border: none; /* Убираем стандартную границу инпута */
+    outline: none;
+    width: 100%; /* Инпут заполняет всю доступную ширину внутри filter-wrapper */
+    padding: 2px;
+    font-size: 0.8em;
+    background: transparent; /* Фон прозрачный, чтобы использовать фон filter-wrapper */
+    color: #333; /* <-- ЦВЕТ ТЕКСТА ИНПУТА ФИЛЬТРА В СВЕТЛОЙ ТЕМЕ */
+     /* Убираем box-shadow из общих стилей App.css controls input */
+     box-shadow: none; /* Убираем box-shadow для инпутов фильтра */
+}
+body.dark-theme .filter-wrapper input {
+    color: #e0e0e0; /* <-- ЦВЕТ ТЕКСТА ИНПУТА ФИЛЬТРА В ТЕМНОЙ ТЕМЕ */
+}
+
+
+/* Стили для disabled инпутов фильтра */
+.filter-cell input:disabled {
+    background: #e9e9e9 !important; /* Светлый серый */
+    cursor: not-allowed;
+}
+body.dark-theme .filter-cell input:disabled {
+     background: #2d2d2d !important; /* Темный серый */
+     opacity: 0.6;
+}
+
+
+tbody tr {
+    cursor: pointer; /* Строки кликабельны для открытия деталей */
+    transition: background 0.2s ease, opacity 0.3s ease;
+}
+
+tbody tr:hover {
+    background: #f0f0f0; /* <-- ФОН СТРОКИ ПРИ НАВЕДЕНИИ В СВЕТЛОЙ ТЕМЕ */
+}
+body.dark-theme tbody tr:hover {
+    background: #252525; /* <-- ФОН СТРОКИ ПРИ НАВЕДЕНИИ В ТЕМНОЙ ТЕМЕ */
+}
+
+/* Стили для "исчезнувших" возможностей */
+.disappeared-row {
+    opacity: 0.6; /* Делаем полупрозрачным */
+    font-style: italic; /* Курсив */
+    color: #777; /* Серый текст в светлой теме */
+    text-decoration: line-through; /* Зачеркнутый текст */
+}
+body.dark-theme .disappeared-row {
+     color: #777; /* Серый текст в темной теме */
+}
+.disappeared-row:hover {
+     background: #e0e0e0; /* Более светлый фон при наведении */
+}
+body.dark-theme .disappeared-row:hover {
+     background: #333 !important; /* Более темный фон при наведении */
+}
+
+
+/* Стиль для строк с высокой Net прибылью (используем net_profit_pct с бэкенда) */
+.high-profit {
+    background: #d4edda; /* Светло-зеленый для светлой темы */
+}
+body.dark-theme .high-profit {
+    background: #2a4d3a; /* Темно-зеленый для темной темы */
+}
+/* Стили для исчезнувших строк с высокой прибылью */
+.high-profit.disappeared-row {
+     background: #c3e6cb !important; /* Светлее зеленый */
+     opacity: 0.7;
+}
+body.dark-theme .high-profit.disappeared-row {
+     background: #1f382a !important; /* Еще темнее зеленый */
+     opacity: 0.7;
+}
+
+/* Стиль для ячеек Gross Profit */
+.profit-cell {
+     cursor: help; /* Курсор при наведении намекает на доп. инфо */
+     color: #333; /* <-- ЦВЕТ ТЕКСТА В СВЕТЛОЙ ТЕМЕ */
+}
+body.dark-theme .profit-cell {
+    color: #d1d1d1; /* <-- ЦВЕТ ТЕКСТА В ТЕМНОЙ ТЕМЕ */
+}
+
+/* Стиль для ячеек Net Profit (основное поле прибыли) */
+.net-profit-cell {
+    cursor: help; /* Курсор при наведении */
+    font-weight: bold; /* Делаем текст жирным */
+    color: #333; /* <-- ЦВЕТ ТЕКСТА В СВЕТЛОЙ ТЕМЕ (переопределяется классами positive/negative) */
+     /* Добавим отступ справа, если отображается Quote */
+     /* padding-right: 20px; */
+}
+body.dark-theme .net-profit-cell {
+     color: #d1d1d1; /* <-- ЦВЕТ ТЕКСТА В ТЕМНОЙ ТЕМЕ */
+}
+
+/* Стили для положительных/отрицательных Net Profit (применяются к .net-profit-cell) */
+.net-profit-cell.positive-value {
+     color: green !important; /* !important для переопределения базового цвета */
+     font-weight: 600;
+}
+body.dark-theme .net-profit-cell.positive-value {
+     color: #a3e4b5 !important; /* Светло-зеленый */
+}
+
+.net-profit-cell.negative-value {
+    color: red !important; /* !important для переопределения базового цвета */
+    font-weight: 600;
+}
+body.dark-theme .net-profit-cell.negative-value {
+    color: #ff6666 !important; /* Светло-красный */
+}
+
+
+/* Цвет текста в ячейках прибыли для исчезнувших строк (переопределяет positive/negative) */
+.disappeared-row .profit-cell,
+.disappeared-row .net-profit-cell {
+    color: #777 !important; /* Серый текст для прибыльных ячеек в исчезнувшей строке */
+}
+
+
+.exchange-cell {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap; /* Сохраняем в одну строку */
+}
+
+.exchange-logo {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0; /* Не сжиматься */
+}
+
+.favorite-btn { /* Стиль кнопки избранного */
+    background: none; /* Убираем фон */
+    border: none; /* Убираем границу */
+    cursor: pointer;
+    font-size: 1em;
+    color: #6b7280; /* Серый */
+    transition: color 0.2s ease;
+    padding: 0; /* Убираем padding */
+    line-height: 1; /* Выравнивание */
+    vertical-align: middle; /* Выравнивание по вертикали */
+}
+
+.favorite-btn:hover {
+    color: #f5c521; /* Золотой */
+}
+
+.favorite-btn.favorited {
+    color: #f5c521; /* Золотой, если в избранном */
+}
+/* Темная тема для кнопки избранного - цвета те же */
+
+
+/* Skeleton Loading */
+.skeleton-row td {
+    padding: 6px 8px; /* Меньше padding для скелетона */
+}
+
+.skeleton {
+    height: 12px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); /* Светлый градиент */
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 3px;
+    /* Добавим минимальную ширину для ячеек скелетона, чтобы они не схлопывались совсем */
+    min-width: 30px;
+}
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+body.dark-theme .skeleton {
+    background: linear-gradient(90deg, #2d2d2d 25%, #3d3d3d 50%, #2d2d2d 75%); /* Темный градиент */
+}
+
+
+/* Filter Controls - ЭТИ СТИЛИ ПЕРЕНЕСЕНЫ В App.css */
+/* Filter Modal - ЭТИ СТИЛИ ПЕРЕНЕСЕНЫ В FilterModal.css */
+/* Settings Modal - ЭТИ СТИЛИ ПЕРЕНЕСЕНЫ В SettingsModal.css */
+/* Pagination - ЭТИ СТИЛИ ПЕРЕНЕСЕНЫ В Pagination.css */
+/* SearchInput - ЭТИ СТИЛИ УЖЕ В App.css */
+
+
+/* Адаптивность */
+/* Применяем display: none к колонкам по классам */
+@media (max-width: 1024px) {
+    /* Скрываем Комиссии и Сети */
+    .col-fees-quote, .col-networks { display: none; }
+
+    table { font-size: 0.8em; }
+    th, td { padding: 6px 8px; }
+    /* Adjust other column widths if needed */
+    .col-buy-exchange, .col-sell-exchange { width: 90px; }
+    .col-gross-profit-pct { width: 70px; }
+    .col-net-profit { width: 90px; } /* Net % (уменьшена) */
+    .col-volume-base { width: 80px; }
+    .col-timestamp { width: 70px; }
+    .col-time-since-update { width: 90px; }
+    .col-actions { width: 40px; }
+
+}
+
+@media (max-width: 768px) {
+    /* Скрываем Объем (Б.вал) и Время Данных */
+    .col-volume-base, .col-timestamp { display: none; }
+
+
+    table { font-size: 0.75em; }
+    th, td { padding: 5px 6px; }
+    /* Adjust other column widths if needed */
+     .col-buy-exchange, .col-sell-exchange { width: 80px; }
+     .col-gross-profit-pct { width: 60px; }
+     .col-net-profit { width: 80px; }
+     .col-time-since-update { width: 80px; }
+     .col-actions { width: 35px; }
+
+     /* Filter controls - перенесены в App.css */
+     /* .filter-controls { flex-direction: column; align-items: flex-start; gap: 8px; } */
+}
+
+@media (max-width: 480px) {
+     /* Скрываем Gross % */
+     .col-gross-profit-pct { display: none; }
+
+     table { font-size: 0.7em; }
+     th, td { padding: 4px 5px; }
+      /* Adjust other column widths if needed */
+     .col-buy-exchange, .col-sell-exchange { width: 70px; }
+     .col-net-profit { width: 60px; }
+     .col-time-since-update { width: 70px; }
+     .col-actions { width: 30px; }
+
+     /* Уменьшим шрифт для инпутов фильтров */
+     .filter-wrapper input {
+         font-size: 0.7em;
+     }
+}

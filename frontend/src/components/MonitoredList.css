@@ -1,0 +1,257 @@
+/* frontend/src/components/MonitoredList.css */
+
+.monitored-list {
+    margin-top: 20px;
+    background-color: #fff; /* --- ФОН (СВЕТЛАЯ ТЕМА) --- */
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    color: #333; /* --- ЦВЕТ ТЕКСТА (СВЕТЛАЯ ТЕМА) --- */
+    border: 1px solid #ccc; /* --- ОБЩАЯ ГРАНИЦА КОНТЕЙНЕРА (СВЕТЛАЯ ТЕМА) --- */
+}
+
+body.dark-theme .monitored-list {
+    background-color: #1a1a1a; /* --- ФОН (ТЕМНАЯ ТЕМА) --- */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА (ТЕМНАЯ ТЕМА) --- */
+    border: 1px solid #444; /* --- ОБЩАЯ ГРАНИЦА КОНТЕЙНЕРА (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.monitored-list h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee; /* --- ГРАНИЦА (СВЕТЛАЯ ТЕМА) --- */
+    padding-bottom: 10px;
+    font-size: 1.8em;
+    color: #343a40; /* --- ЦВЕТ ЗАГОЛОВКА (СВЕТЛАЯ ТЕМА) --- */
+}
+
+body.dark-theme .monitored-list h2 {
+     border-bottom: 1px solid #555; /* --- ГРАНИЦА (ТЕМНАЯ ТЕМА) --- */
+     color: #fff; /* --- ЦВЕТ ЗАГОЛОВКА (ТЕМНАЯ ТЕМА) --- */
+}
+
+.last-updated {
+    font-size: 0.9em;
+    color: #777; /* --- ЦВЕТ ТЕКСТА (СВЕТЛАЯ ТЕМА) --- */
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+body.dark-theme .last-updated {
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.monitored-filters { /* Использует класс controls из App.css */
+    margin-bottom: 20px;
+    /* Дополнительные стили для контейнера фильтров мониторинга, если нужны */
+    /* display: flex; align-items: center; gap: 10px; flex-wrap: wrap; */ /* Эти стили уже в .controls */
+}
+
+/* Инпуты и селекты в .monitored-filters наследуют стили от .controls input, .controls select */
+
+
+.exchanges-list {
+    margin-top: 15px;
+    border-top: 1px solid #ccc; /* --- ГРАНИЦА СПИСКА БИРЖ (СВЕТЛАЯ ТЕМА) --- */
+    padding-top: 15px;
+}
+
+body.dark-theme .exchanges-list {
+    border-top: 1px solid #444; /* --- ГРАНИЦА СПИСКА БИРЖ (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.exchange-section {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden; /* Скрывает содержимое, когда секция свернута */
+    background-color: #f8f8f8; /* --- ФОН СЕКЦИИ БИРЖИ (СВЕТЛАЯ ТЕМА) --- */
+    border: 1px solid #e0e0e0; /* Небольшая граница секции */
+}
+
+body.dark-theme .exchange-section {
+    background-color: #1a1a1a; /* --- ФОН СЕКЦИИ БИРЖИ (ТЕМНАЯ ТЕМА) --- */
+    border: 1px solid #333; /* Небольшая граница секции */
+}
+
+.exchange-section:last-child {
+    margin-bottom: 0;
+}
+
+.exchange-header {
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    background-color: #e9ecef; /* --- ФОН ЗАГОЛОВКА СЕКЦИИ (СВЕТЛАЯ ТЕМА) --- */
+    color: #495057; /* --- ЦВЕТ ТЕКСТА (СВЕТЛАЯ ТЕМА) --- */
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body.dark-theme .exchange-header {
+    background-color: #222; /* --- ФОН ЗАГОЛОВКА СЕКЦИИ (ТЕМНАЯ ТЕМА) --- */
+    color: #fff; /* --- ЦВЕТ ТЕКСТА (ТЕМНАЯ ТЕМА) --- */
+}
+
+.exchange-header:hover {
+    background-color: #dee2e6; /* --- ФОН ПРИ НАВЕДЕНИИ (СВЕТЛАЯ ТЕМА) --- */
+}
+body.dark-theme .exchange-header:hover {
+     background-color: #333; /* --- ФОН ПРИ НАВЕДЕНИИ (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.exchange-header span { /* Иконка развернуть/свернуть */
+    font-size: 0.8em;
+    margin-left: 10px;
+    transition: transform 0.2s ease;
+    color: #777; /* --- ЦВЕТ ИКОНКИ (СВЕТЛАЯ ТЕМА) --- */
+}
+
+body.dark-theme .exchange-header span {
+     color: #abb2bf; /* --- ЦВЕТ ИКОНКИ (ТЕМНАЯ ТЕМА) --- */
+}
+
+/* --- Стили для индикатора статуса биржи --- */
+.exchange-status-indicator {
+    font-size: 0.7em; /* Меньший шрифт */
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 10px; /* Отступ слева от названия биржи */
+    font-weight: normal; /* Не жирный */
+    color: white; /* Цвет текста по умолчанию (переопределяется статусами) */
+    border: 1px solid transparent; /* Прозрачная граница по умолчанию */
+    /* Убираем flex-shrink, т.к. находится внутри flex контейнера .exchange-header */
+}
+
+.exchange-status-indicator.status-connecting {
+    background-color: #007bff; /* Синий */
+    border-color: #007bff;
+}
+
+.exchange-status-indicator.status-connected {
+    background-color: green;
+    border-color: green;
+}
+
+.exchange-status-indicator.status-disconnected {
+    background-color: gray;
+    border-color: gray;
+}
+
+.exchange-status-indicator.status-error {
+    background-color: red;
+    border-color: red;
+}
+/* Статус аутентификации можно тоже красным или другим */
+.exchange-status-indicator.status-auth_error {
+     background-color: #e74c3c; /* Немного другой красный */
+     border-color: #e74c3c;
+}
+/* Статус "нет WS поддержки" */
+.exchange-status-indicator.status-no_ws_support {
+    background-color: #f39c12; /* Оранжевый */
+    border-color: #f39c12;
+}
+/* Статус "нет пар" */
+.exchange-status-indicator.status-no_pairs {
+    background-color: #9b59b6; /* Фиолетовый */
+    border-color: #9b59b6;
+}
+
+body.dark-theme .exchange-status-indicator.status-connecting { background-color: #61dafb; border-color: #61dafb; color: #333; } /* React Blue */
+body.dark-theme .exchange-status-indicator.status-connected { background-color: #a3e4b5; border-color: #a3e4b5; color: #333; } /* Светло-зеленый */
+body.dark-theme .exchange-status-indicator.status-disconnected { background-color: #999; border-color: #999; color: #333; }
+body.dark-theme .exchange-status-indicator.status-error { background-color: #ff6666; border-color: #ff6666; color: #333; }
+body.dark-theme .exchange-status-indicator.status-auth_error { background-color: #c0392b; border-color: #c0392b; color: #fff; }
+body.dark-theme .exchange-status-indicator.status-no_ws_support { background-color: #d35400; border-color: #d35400; color: #fff; }
+body.dark-theme .exchange-status-indicator.status-no_pairs { background-color: #8e44ad; border-color: #8e44ad; color: #fff; }
+
+
+.exchange-pairs-content {
+    padding: 10px 15px;
+    border-top: 1px solid #eee; /* --- ГРАНИЦА МЕЖДУ ЗАГОЛОВКОМ И ПАРАМИ (СВЕТЛАЯ ТЕМА) --- */
+    background-color: #fff; /* --- ФОН СПИСКА ПАР ВНУТРИ СЕКЦИИ (СВЕТЛАЯ ТЕМА) --- */
+}
+
+body.dark-theme .exchange-pairs-content {
+    border-top: 1px solid #444; /* --- ГРАНИЦА МЕЖДУ ЗАГОЛОВКОМ И ПАРАМИ (ТЕМНАЯ ТЕМА) --- */
+    background-color: #1a1a1a; /* --- ФОН СПИСКА ПАР ВНУТРИ СЕКЦИИ (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.monitored-pair-item {
+    margin-bottom: 8px;
+    padding: 3px 0;
+    border-bottom: 1px dashed #ccc; /* --- ГРАНИЦА МЕЖДУ ПАРАМИ (СВЕТЛАЯ ТЕМА) --- */
+    font-size: 1em;
+    color: #333; /* --- ЦВЕТ ТЕКСТА ЦЕНЫ (СВЕТЛАЯ ТЕМА) --- */
+}
+
+body.dark-theme .monitored-pair-item {
+    border-bottom: 1px dashed #444; /* --- ГРАНИЦА МЕЖДУ ПАРАМИ (ТЕМНАЯ ТЕМА) --- */
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА ЦЕНЫ (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.exchange-pairs-content .monitored-pair-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.monitored-pair-item strong {
+    display: inline-block;
+    min-width: 100px;
+    margin-right: 10px;
+    color: #333; /* --- ЦВЕТ СИМВОЛА (СВЕТЛАЯ ТЕМА - темно-серый) --- */
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+body.dark-theme .monitored-pair-item strong {
+    color: #fff; /* --- ЦВЕТ СИМВОЛА (ТЕМНАЯ ТЕМА - белый) --- */
+}
+
+.monitored-pair-item {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Сообщения внутри списка мониторинга */
+.monitored-list .info-message,
+.monitored-list .warning-message {
+     /* Переопределяем отступы и выравнивание для сообщений внутри списка */
+     margin-top: 10px;
+     margin-bottom: 10px;
+     padding: 5px 10px;
+     text-align: left; /* Сообщения выровнены по левому краю */
+     font-style: normal; /* Убираем курсив */
+     font-weight: normal; /* Убираем жирность */
+}
+
+body.dark-theme .monitored-list .warning-message {
+     background-color: #333; /* Темный фон для предупреждения */
+}
+
+/* Адаптивность - если нужна специфичная для этого компонента */
+@media (max-width: 600px) {
+    .monitored-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .monitored-filters input[type="text"],
+     .monitored-filters select,
+     .monitored-filters button {
+         width: 100%;
+         max-width: none;
+     }
+}

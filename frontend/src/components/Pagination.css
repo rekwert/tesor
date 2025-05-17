@@ -1,0 +1,90 @@
+/* frontend/src/components/Pagination.css */
+
+.pagination-container {
+    margin-top: 20px;
+    background-color: #fff; /* --- ФОН ПАГИНАЦИИ (СВЕТЛАЯ ТЕМА) --- */
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    color: #555; /* --- ЦВЕТ ТЕКСТА ПАГИНАЦИИ (СВЕТЛАЯ ТЕМА) --- */
+    display: flex;
+    gap: 15px; /* Увеличил gap */
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Для адаптивности */
+}
+
+body.dark-theme .pagination-container {
+    background-color: #1a1a1a; /* --- ФОН ПАГИНАЦИИ (ТЕМНАЯ ТЕМА) --- */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА ПАГИНАЦИИ (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.pagination-info {
+    font-size: 1em;
+    /* color наследуется от контейнера */
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 8px; /* Gap между кнопками пагинации */
+    align-items: center;
+}
+
+.pagination-container button {
+    /* Используем базовые стили кнопок из App.css */
+    padding: 6px 12px;
+    background-color: #6c757d; /* --- ФОН КНОПОК (СВЕТЛАЯ ТЕМА - серый) --- */
+    border-color: #6c757d;
+    color: white;
+}
+
+body.dark-theme .pagination-container button {
+    background-color: #5a6268; /* --- ФОН КНОПОК (ТЕМНАЯ ТЕМА) --- */
+    border-color: #5a6268;
+    color: #fff; /* --- ЦВЕТ ТЕКСТА (ТЕМНАЯ ТЕМА) --- */
+}
+
+
+.pagination-container button:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+body.dark-theme .pagination-container button:hover:not(:disabled) {
+    background-color: #4a505c;
+}
+
+
+.current-page { /* Если будешь добавлять номер текущей страницы как спан */
+    font-weight: bold;
+    padding: 0 5px;
+    /* color наследуется от контейнера */
+}
+
+
+.rows-per-page-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* color наследуется от контейнера */
+}
+
+.rows-per-page-label {
+     /* Использует стили из App.css, но можно переопределить если нужно */
+     display: flex;
+     align-items: center;
+     gap: 5px;
+}
+
+.rows-per-page-control select {
+    /* Использует стили select из App.css controls */
+}
+
+
+/* Адаптивность пагинации */
+@media (max-width: 600px) {
+    .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

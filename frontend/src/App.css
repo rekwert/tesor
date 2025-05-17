@@ -1,0 +1,464 @@
+/* src/App.css */
+
+/* --- Базовые стили для приложения (Светлая тема по умолчанию) --- */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f4f7f6; /* --- ФОН СВЕТЛОЙ ТЕМЫ --- */
+    color: #333; /* --- ЦВЕТ ТЕКСТА СВЕТЛОЙ ТЕМЫ --- */
+    line-height: 1.6;
+    overflow-x: hidden; /* Предотвращаем горизонтальный скролл от широких элементов */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход при смене темы */
+}
+
+/* Контейнер основного приложения */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Стили для навигации (Header) --- */
+.navbar {
+    background-color: #1e2a3a; /* --- ФОН ШАПКИ (СВЕТЛАЯ ТЕМЫ - темно-синий) --- */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Делаем шапку "липкой" при прокрутке */
+    top: 0;
+    z-index: 20; /* Выше таблицы и модалок */
+}
+
+.navbar button {
+     /* Переопределяем базовые стили кнопок для навигации */
+     background-color: transparent;
+     color: #fff; /* Белый текст */
+     border: none;
+     padding: 8px 12px;
+     cursor: pointer;
+     font-size: 1em;
+     transition: color 0.2s ease, background-color 0.2s ease;
+     border-radius: 4px;
+     box-shadow: none;
+     flex-shrink: 0; /* Предотвращаем сжатие кнопок */
+}
+
+.navbar button:hover:not(:disabled) {
+     background-color: rgba(255, 255, 255, 0.1); /* Легкое подсвечивание при наведении */
+     color: #fff;
+}
+
+.navbar button.active {
+     background-color: rgba(255, 255, 255, 0.2); /* Фон активной вкладки */
+     font-weight: bold;
+}
+
+/* --- Стили для основного содержимого --- */
+.main-content {
+    flex-grow: 1; /* Основное содержимое занимает все доступное пространство */
+    padding: 20px;
+    max-width: 1200px; /* Ограничиваем максимальную ширину содержимого */
+    margin: 0 auto; /* Центрируем содержимое */
+    width: 100%; /* Занимает всю ширину внутри родителя */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+    position: relative; /* Для позиционирования оверлея загрузки */
+}
+
+/* Стиль для заголовков секций */
+h2 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #343a40; /* --- ЦВЕТ ЗАГОЛОВКОВ СЕКЦИЙ (СВЕТЛАЯ ТЕМА) --- */
+    font-size: 1.8em;
+    border-bottom: 1px solid #ccc; /* --- ГРАНИЦА ПОД ЗАГОЛОВКАМИ (СВЕТЛАЯ ТЕМА) --- */
+    padding-bottom: 5px;
+}
+
+/* --- Стили для элементов управления (.controls) --- */
+.controls {
+    background-color: #fff; /* --- ФОН ПАНЕЛИ УПРАВЛЕНИЯ (СВЕТЛАЯ ТЕМА) --- */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    color: #555; /* --- ЦВЕТ ТЕКСТА В ПАНЕЛИ (СВЕТЛАЯ ТЕМА) --- */
+}
+
+/* Улучшим вид input, select в controls */
+.controls input[type="text"],
+.controls input[type="number"],
+.controls select {
+    padding: 8px;
+    border: 1px solid #ccc; /* --- ГРАНИЦА ПОЛЕЙ ВВОДА (СВЕТЛАЯ ТЕМА) --- */
+    background-color: #fff; /* --- ФОН ПОЛЕЙ ВВОДА (СВЕТЛАЯ ТЕМЫ) --- */
+    color: #333; /* --- ЦВЕТ ТЕКСТА ПОЛЕЙ ВВОДА (СВЕТЛАЯ ТЕМЫ) --- */
+    border-radius: 4px;
+    font-size: 1em;
+    /* Убираем box-shadow inset здесь, чтобы он не применялся к инпутам фильтров в таблице */
+    /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); */
+    outline: none; /* Убираем стандартный outline */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    flex-grow: 1; /* Поля ввода могут растягиваться */
+     min-width: 150px; /* Минимальная ширина для полей ввода */
+}
+/* Добавляем box-shadow inset только для инпутов НЕ в filter-wrapper */
+.controls input[type="text"]:not(.filter-wrapper input),
+.controls input[type="number"]:not(.filter-wrapper input) {
+     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+.controls input[type="text"]:focus,
+.controls input[type="number"]:focus,
+.controls select:focus {
+    border-color: #007bff; /* Цвет при фокусе */
+    /* Применяем box-shadow для фокуса, включая инсет для обычных инпутов */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 123, 255, 0.25);
+}
+/* Уточняем box-shadow при фокусе для инпутов в filter-wrapper */
+.controls input[type="text"].filter-wrapper input:focus {
+     box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Без inset */
+}
+
+
+/* Базовый стиль для кнопок (можно переопределять в компонентах) */
+button {
+    padding: 8px 15px;
+    background-color: #6f42c1; /* Фиолетовый */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    flex-shrink: 0; /* Предотвращаем сжатие кнопок */
+}
+
+button:hover:not(:disabled) {
+    background-color: #563d7c;
+}
+
+button:disabled {
+    background-color: #cccccc; /* --- ФОН НЕАКТИВНЫХ КНОПОК (СВЕТЛАЯ ТЕМА) --- */
+    color: #888; /* --- ЦВЕТ ТЕКСТА НЕАКТИВНЫХ КНОПОК (СВЕТЛАЯ ТЕМЫ) --- */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+/* --- Общие стили для модальных окон --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Убедимся, что модалка поверх всего */
+    /* backdrop-filter: blur(5px); */ /* Опционально: блюр фона */
+}
+
+.modal-content {
+    background: #fff; /* Светлая тема */
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px; /* Максимальная ширина */
+    max-height: 80vh; /* Максимальная высота */
+    overflow-y: auto; /* Прокрутка, если содержимое больше */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Тень в светлой теме */
+    color: #333; /* Цвет текста в светлой теме */
+    animation: modalFadeIn 0.3s ease;
+    position: relative; /* Для позиционирования кнопки закрытия */
+}
+
+/* Анимация появления модалки */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Стили для сообщений (ошибка, информация, предупреждение) --- */
+/* Сообщение об ошибке в навигации (краткое) */
+.app-error {
+    color: red;
+    font-weight: bold;
+    margin-left: auto; /* Выравнивание справа в navbar */
+    font-size: 0.9em; /* Чуть меньше шрифт в шапке */
+    cursor: help; /* Курсор для намека на tooltip или более детальное сообщение */
+}
+
+/* Общее сообщение об ошибке на уровне приложения (под навигацией, более детальное) */
+.app-level-error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f8d7da; /* Светло-красный фон */
+    border: 1px solid #f5c6cb; /* Граница */
+    border-radius: 5px;
+}
+
+
+.info-message {
+    color: #555; /* --- ЦВЕТ ТЕКСТА (СВЕТЛАЯ ТЕМЫ) --- */
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px; /* Добавляем отступ сверху */
+}
+
+.warning-message {
+    color: orange; /* --- ЦВЕТ ТЕКСТА (СВЕТЛАЯ ТЕМЫ) --- */
+    text-align: center;
+    margin-top: 10px; /* Добавляем отступ сверху */
+    padding: 10px;
+    border: 1px solid orange; /* --- ГРАНИЦА (СВЕТЛАЯ ТЕМЫ) --- */
+    background-color: #fff3cd; /* --- ФОН (СВЕТЛАЯ ТЕМЫ) --- */
+    border-radius: 5px;
+}
+
+/* Сообщение об ошибке внутри таблицы (например, при отсутствии данных из-за ошибки) */
+.opportunity-table .error-message {
+    /* Переопределяем выравнивание и отступы для сообщений в таблице */
+    text-align: center;
+    padding: 15px;
+    margin: 0; /* Убираем отступы, которые могут быть у .info-message/warning-message */
+    font-style: normal; /* Убираем курсив */
+    color: inherit; /* Наследуем цвет текста таблицы */
+}
+
+
+/* --- Стили для статуса WebSocket --- */
+.ws-status {
+    font-size: 0.9em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: auto; /* Выравнивание справа в navbar */
+    /* Убираем text-align: center, т.к. в navbar */
+    flex-shrink: 0; /* Предотвращаем сжатие */
+}
+
+.ws-status.status-connecting {
+    color: #007bff; /* Синий */
+    background-color: #e0f7ff; /* Светло-синий фон */
+    border: 1px solid #007bff;
+}
+
+.ws-status.status-connected {
+    color: green;
+    background-color: #e9ffeb; /* Светло-зеленый фон */
+    border: 1px solid green;
+}
+
+.ws-status.status-disconnected {
+    color: gray;
+    background-color: #f2f2f2; /* Светло-серый фон */
+    border: 1px solid gray;
+}
+
+.ws-status.status-error {
+    color: red;
+    background-color: #ffebee; /* Светло-красный фон */
+    border: 1px solid red;
+}
+
+
+/* --- СТИЛИ ТЕМНОЙ ТЕМЫ (применяются при наличии класса 'dark-theme' на body или .app-container) --- */
+body.dark-theme {
+    background-color: #000; /* --- ФОН ТЕМНОЙ ТЕМЫ (ЧЕРНЫЙ) --- */
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА ТЕМНОЙ ТЕМЫ (СВЕТЛЫЙ) --- */
+}
+
+body.dark-theme .navbar {
+    background-color: #000; /* --- ФОН ШАПКИ (ТЕМНАЯ ТЕМЫ - ЧЕРНЫЙ) --- */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .navbar button {
+     color: #abb2bf;
+}
+
+body.dark-theme .navbar button:hover:not(:disabled) {
+     background-color: rgba(255, 255, 255, 0.05); /* Легкое подсвечивание */
+     color: #fff;
+}
+
+body.dark-theme .navbar button.active {
+     background-color: rgba(255, 255, 255, 0.1); /* Фон активной вкладки */
+     color: #fff;
+}
+
+
+body.dark-theme h2 {
+    color: #fff; /* --- ЦВЕТ ЗАГОЛКОВ СЕКЦИЙ (ТЕМНАЯ ТЕМЫ - БЕЛЫЙ) --- */
+    border-bottom-color: #555; /* --- ГРАНИЦА ПОД ЗАГОЛОВКАМИ (ТЕМНАЯ ТЕМЫ) --- */
+}
+
+body.dark-theme .controls {
+    background-color: #1a1a1a; /* --- ФОН ЭЛЕМЕНТОВ (ТЕМНАЯ ТЕМЫ) --- */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА (ТЕМНАЯ ТЕМЫ) --- */
+}
+
+body.dark-theme .controls input[type="text"],
+body.dark-theme .controls input[type="number"],
+body.dark-theme .controls select {
+    border-color: #444; /* --- ЦВЕТ ГРАНИЦ В ТЕМНОЙ ТЕМЕ --- */
+    background-color: #222; /* --- ФОН ПОЛЕЙ ВВОДА (ТЕМНАЯ ТЕМЫ) --- */
+    color: #abb2bf; /* --- ЦВЕТ ТЕКСТА ПОЛЕЙ ВВОДА (ТЕМНАЯ ТЕМЫ) --- */
+     /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); */ /* Убираем отсюда */
+}
+body.dark-theme .controls input[type="text"]:not(.filter-wrapper input),
+body.dark-theme .controls input[type="number"]:not(.filter-wrapper input) {
+     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Добавляем сюда */
+}
+
+
+body.dark-theme .controls input[type="text"]:focus,
+body.dark-theme .controls input[type="number"]:focus,
+body.dark-theme .controls select:focus {
+    border-color: #61dafb; /* Цвет при фокусе в темной теме */
+    /* Применяем box-shadow для фокуса, включая инсет для обычных инпутов */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 5px rgba(97, 218, 251, 0.25);
+}
+/* Уточняем box-shadow при фокусе для инпутов в filter-wrapper (темная тема)*/
+body.dark-theme .controls input[type="text"].filter-wrapper input:focus {
+     box-shadow: 0 0 5px rgba(97, 218, 251, 0.25); /* Без inset */
+}
+
+
+body.dark-theme ::placeholder {
+    color: #888;
+}
+
+body.dark-theme button:disabled {
+    background-color: #333; /* --- ФОН НЕАКТИВНЫХ КНОПОК (ТЕМНАЯ ТЕМЫ) --- */
+    color: #666; /* --- ЦВЕТ ТЕКСТА НЕАКТИВНЫХ КНОПОК (ТЕМНАЯ ТЕМЫ) --- */
+}
+
+
+body.dark-theme .modal-overlay {
+    /* background: rgba(0, 0, 0, 0.7); */
+}
+
+body.dark-theme .modal-content {
+    background: #1a1a1a; /* Темная тема */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    color: #e0e0e0; /* Цвет текста в темной теме */
+}
+
+body.dark-theme .app-error {
+    color: #ff6666;
+}
+body.dark-theme .app-level-error {
+    color: #ff6666;
+    background-color: #4d0000;
+    border-color: #ff6666;
+}
+
+
+body.dark-theme .info-message {
+    color: #999;
+}
+body.dark-theme .opportunity-table .info-message {
+     /* Цвет наследуется, но убедимся, что не #999 */
+     color: inherit;
+}
+
+body.dark-theme .warning-message {
+    color: #ffcc66;
+    border-color: #ffcc66;
+    background-color: #333;
+}
+body.dark-theme .opportunity-table .warning-message {
+     background-color: #333; /* Фон сохраняется */
+     color: inherit; /* Цвет наследуется */
+}
+
+body.dark-theme .ws-status.status-connecting {
+    color: #61dafb; /* React Blue */
+    background-color: #1a2f3a;
+    border-color: #61dafb;
+}
+
+body.dark-theme .ws-status.status-connected {
+    color: #a3e4b5; /* Светло-зеленый */
+    background-color: #2a4d3a;
+    border-color: #a3e4b5;
+}
+
+body.dark-theme .ws-status.status-disconnected {
+    color: #999;
+    background-color: #333;
+    border-color: #999;
+}
+
+body.dark-theme .ws-status.status-error {
+    color: #ff6666;
+    background-color: #4d0000;
+    border-color: #ff6666;
+}
+/* Статусы бирж в темной теме */
+body.dark-theme .exchange-status-indicator.status-connecting { background-color: #61dafb; border-color: #61dafb; color: #333; } /* React Blue */
+body.dark-theme .exchange-status-indicator.status-connected { background-color: #a3e4b5; border-color: #a3e4b5; color: #333; } /* Светло-зеленый */
+body.dark-theme .exchange-status-indicator.status-disconnected { background-color: #999; border-color: #999; color: #333; }
+body.dark-theme .exchange-status-indicator.status-error { background-color: #ff6666; border-color: #ff6666; color: #333; }
+body.dark-theme .exchange-status-indicator.status-auth_error { background-color: #c0392b; border-color: #c0392b; color: #fff; }
+body.dark-theme .exchange-status-indicator.status-no_ws_support { background-color: #f39c12; border-color: #f39c12; color: #fff; }
+body.dark-theme .exchange-status-indicator.status-no_pairs { background-color: #9b59b6; border-color: #9b59b6; color: #fff; }
+
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute; /* Изменено на absolute для позиционирования относительно main-content */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8); /* Светлая тема */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 500; /* Над таблицей, под модалками */
+    color: #333;
+}
+
+body.dark-theme .loading-overlay {
+    background: rgba(0, 0, 0, 0.8); /* Темная тема */
+    color: #fff;
+}
+
+/* Адаптивность для controls */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .controls input[type="text"],
+    .controls input[type="number"],
+    .controls select {
+         width: 100%; /* Занимают всю ширину в колонке */
+         max-width: none; /* Убираем ограничение */
+    }
+     .controls button {
+         width: 100%; /* Кнопки тоже на всю ширину */
+         max-width: none; /* Убираем ограничение */
+     }
+}

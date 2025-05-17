@@ -1,0 +1,36 @@
+/* src/index.css */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Убедимся, что box-sizing установлен правильно */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Добавим базовые стили для ссылок, если они не перекрываются другими */
+a {
+    color: inherit; /* Наследует цвет текста от родителя */
+    text-decoration: none; /* Убирает подчеркивание */
+}
+
+a:hover {
+    text-decoration: underline; /* Добавляет подчеркивание при наведении */
+}
+
+/* Сброс стандартных отступов у списков, если нужно */
+ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

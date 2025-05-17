@@ -1,0 +1,151 @@
+.homepage {
+    margin-top: 0; /* Убрал большой отступ, т.к. main-content уже имеет padding */
+    padding: 0; /* Убрал padding, т.к. main-content уже имеет padding */
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 40px 20px; /* Увеличил padding */
+    background: linear-gradient(45deg, #7f00ff, #e100ff);
+    color: white;
+    border-radius: 10px;
+}
+
+.hero-section h1 {
+    font-size: 3em; /* Увеличил размер */
+    margin-bottom: 15px; /* Увеличил отступ */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Добавил тень */
+}
+
+.hero-section p {
+    font-size: 1.3em; /* Увеличил размер */
+    max-width: 700px; /* Увеличил ширину */
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* Стили для темной темы (могут не требоваться, если Hero Section имеет градиент) */
+body.dark-theme .homepage h2 {
+     color: #fff; /* Белый цвет для заголовка */
+}
+
+
+.homepage h2 {
+    color: #343a40;
+    font-size: 2em;
+    margin-top: 30px; /* Добавил отступ сверху */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.homepage-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.homepage-options button {
+    padding: 15px 40px; /* Увеличил padding */
+    font-size: 1.3em; /* Увеличил размер */
+    border-radius: 8px;
+    background: linear-gradient(45deg, #7f00ff, #e100ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличил тень */
+    min-width: 200px; /* Минимальная ширина кнопки */
+}
+
+.homepage-options button:hover:not(:disabled) {
+    transform: translateY(-3px); /* Легкий подъем */
+    opacity: 0.9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.homepage-options button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.homepage-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Увеличил minmax */
+    gap: 25px; /* Увеличил gap */
+}
+
+.feature-card {
+    background: #fff;
+    padding: 25px; /* Увеличил padding */
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Увеличил тень */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-theme .feature-card {
+     background: #1a1a1a; /* Темный фон */
+     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4); /* Темная тень */
+}
+
+
+.feature-card:hover {
+    transform: translateY(-8px); /* Более заметный подъем */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+ body.dark-theme .feature-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+ }
+
+
+.feature-card h3 {
+    color: #007bff; /* Синий */
+    margin-bottom: 15px; /* Увеличил отступ */
+    font-size: 1.3em; /* Увеличил размер */
+}
+
+body.dark-theme .feature-card h3 {
+    color: #61dafb; /* React Blue в темной теме */
+}
+
+
+.feature-card p {
+    color: #555;
+    font-size: 1.1em; /* Увеличил размер */
+}
+
+body.dark-theme .feature-card p {
+    color: #abb2bf; /* Светлый текст */
+}
+
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5em;
+    }
+    .hero-section p {
+        font-size: 1.1em;
+    }
+    .homepage h2 {
+        font-size: 1.8em;
+    }
+    .homepage-options {
+        flex-direction: column;
+        align-items: center;
+    }
+    .homepage-options button {
+        width: 80%; /* Уменьшил ширину */
+        max-width: 350px; /* Увеличил максимальную ширину */
+    }
+     .homepage-features {
+         grid-template-columns: 1fr; /* Одна колонка на мелких экранах */
+     }
+     .feature-card {
+         padding: 20px;
+     }
+}

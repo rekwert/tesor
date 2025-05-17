@@ -1,0 +1,100 @@
+/* frontend/src/components/SettingsModal.css */
+
+/* Модалка настроек использует общие стили .modal-overlay и .modal-content из App.css */
+/* .settings-modal теперь применяется как класс к .modal-content внутри App.jsx */
+
+
+.settings-modal.modal-content h3 { /* Применяем к элементу внутри .modal-content */
+    margin: 0 0 15px;
+    color: #007bff; /* <-- ЦВЕТ ЗАГОЛОВКА МОДАЛЬНОГО ОКНА В СВЕТЛОЙ ТЕМЕ */
+    font-size: 1.3em;
+    border-bottom: 1px solid #eee; /* Граница в светлой теме */
+    padding-bottom: 10px;
+}
+body.dark-theme .settings-modal.modal-content h3 {
+    color: #4a90e2; /* <-- ЦВЕТ ЗАГОЛОВКА МОДАЛЬНОГО ОКНА В ТЕМНОЙ ТЕМЕ */
+    border-bottom-color: #555; /* Граница в темной теме */
+}
+
+
+.settings-section { /* Новый класс для секций в модалке */
+    margin-bottom: 20px; /* Увеличил отступ */
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Светлая тема */
+}
+body.dark-theme .settings-section {
+     border-bottom: 1px solid #444; /* Темная тема */
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.settings-section h4 {
+    margin: 0 0 10px;
+    color: #555; /* Светлая тема */
+    font-size: 1.1em;
+}
+body.dark-theme .settings-section h4 {
+     color: #b0b0b0; /* Темная тема */
+}
+
+
+/* Используем существующие стили для input-group из App.css */
+.settings-section .input-group {
+    /* display: flex; */
+    /* align-items: center; */
+    /* gap: 10px; */
+    /* flex-wrap: wrap; */
+     /* Стили определены в App.css */
+}
+
+/* Специфичные стили для инпутов внутри модалки настроек */
+.settings-modal.modal-content input[type="number"] {
+     padding: 8px;
+     border: 1px solid #ccc; /* Светлая тема */
+     border-radius: 4px;
+     width: 80px; /* Или другой размер */
+     /* Используем общие стили инпутов из App.css controls */
+     /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); */
+     /* background-color: #fff; */
+     /* color: #333; */
+     outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.dark-theme .settings-modal.modal-content input[type="number"] {
+    /* border-color: #444; */
+    /* background-color: #222; */
+    /* color: #abb2bf; */
+    /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); */
+}
+
+/* Фокус состояние */
+.settings-modal.modal-content input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 123, 255, 0.25);
+}
+body.dark-theme .settings-modal.modal-content input[type="number"]:focus {
+     border-color: #61dafb;
+     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 5px rgba(97, 218, 251, 0.25);
+}
+
+
+/* Используем класс действий из модалки фильтров */
+.settings-modal .filter-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Используем класс кнопки из модалки фильтров */
+.settings-modal .modal-close-btn {
+    /* background: #4a90e2; */
+    /* color: white; */
+    /* transition: opacity 0.2s ease; */
+     /* Стили определены в FilterModal.css */
+}
