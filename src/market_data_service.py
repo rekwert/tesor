@@ -759,60 +759,60 @@ class MarketDataService:
              try:
                  # watch_ticker возвращает асинхронный генератор, который выдает обновления тикера.
                  # ccxt.pro заботится о поддержании соединения и переподключениях.
-                 async for ticker_data in exchange.watch_ticker(symbol):
-                     # ticker_data - это словарь, возвращаемый ccxt.pro parse_ticker
-                     if ticker_data:
-                         # Проверяем, что основные числовые поля присутствуют и имеют правильный тип (или None)
-                         # Используем .get() для безопасного доступа к ключам
-                         bid = ticker_data.get('bid')
-                         ask = ticker_data.get('ask')
-                         last = ticker_data.get('last')
+                 ticker_data = await exchange.watch_ticker(symbol)
 
-                         # Проверяем, что bid, ask, last, если они есть, являются числами или None.
-                         # Это базовая валидация перед созданием модели.
-                         if (bid is None or isinstance(bid, (int, float))) and \
-                            (ask is None or isinstance(ask, (int, float))) and \
-                            (last is None or isinstance(last, (int, float))):
+                 if ticker_data:
+                     # Проверяем, что основные числовые поля присутствуют и имеют правильный тип (или None)
+                     # Используем .get() для безопасного доступа к ключам
+                     bid = ticker_data.get('bid')
+                     ask = ticker_data.get('ask')
+                     last = ticker_data.get('last')
 
-                            try:
-                                # Создаем экземпляр NormalizedTicker Pydantic модели
-                                normalized_ticker = NormalizedTicker(
-                                    exchange=exchange_id,
-                                    symbol=ticker_data.get('symbol', symbol), # Используем символ из данных, если есть
-                                    bid=bid,
-                                    ask=ask,
-                                    last=last,
-                                    timestamp=ticker_data.get('timestamp'), # timestamp в ms (опционально)
-                                    datetime=ticker_data.get('datetime'), # дата/время ISO8601 строки (опционально)
-                                    # Добавьте другие поля тикера, если нужны в модели
-                                )
+                     # Проверяем, что bid, ask, last, если они есть, являются числами или None.
+                     # Это базовая валидация перед созданием модели.
+                     if (bid is None or isinstance(bid, (int, float))) and \
+                        (ask is None or isinstance(ask, (int, float))) and \
+                        (last is None or isinstance(last, (int, float))):
 
-                                # Получение блокировки для безопасной записи
-                                async with self._data_lock:
-                                    # Проверяем, что запись для этой биржи все еще существует в общем хранилище.
-                                    # Это предотвращает ошибки записи, если родительская задача (_watch_exchange)
-                                    # уже удалила запись биржи из-за критической ошибки или отключения.
-                                    if exchange_id in self.current_market_data:
-                                        # Сохраняем нормализованный тикер в словарь для этой биржи под ключом символа
-                                        # Например: self.current_market_data['binance']['BTC/USDT'] = NormalizedTicker(...)
-                                        self.current_market_data[exchange_id][ticker_data_key] = normalized_ticker
-                                        logger.debug(f"WS Ticker: Обновление для {symbol}@{exchange_id.upper()}.")
-                                    # else:
-                                         # logger.debug(f"WS Ticker: Биржа {exchange_id.upper()} отсутствует в current_market_data. Пропускаем обновление для {symbol}.")
+                        try:
+                            # Создаем экземпляр NormalizedTicker Pydantic модели
+                            normalized_ticker = NormalizedTicker(
+                                exchange=exchange_id,
+                                symbol=ticker_data.get('symbol', symbol), # Используем символ из данных, если есть
+                                bid=bid,
+                                ask=ask,
+                                last=last,
+                                timestamp=ticker_data.get('timestamp'), # timestamp в ms (опционально)
+                                datetime=ticker_data.get('datetime'), # дата/время ISO8601 строки (опционально)
+                                # Добавьте другие поля тикера, если нужны в модели
+                            )
+
+                            # Получение блокировки для безопасной записи
+                            async with self._data_lock:
+                                # Проверяем, что запись для этой биржи все еще существует в общем хранилище.
+                                # Это предотвращает ошибки записи, если родительская задача (_watch_exchange)
+                                # уже удалила запись биржи из-за критической ошибки или отключения.
+                                if exchange_id in self.current_market_data:
+                                    # Сохраняем нормализованный тикер в словарь для этой биржи под ключом символа
+                                    # Например: self.current_market_data['binance']['BTC/USDT'] = NormalizedTicker(...)
+                                    self.current_market_data[exchange_id][ticker_data_key] = normalized_ticker
+                                    logger.debug(f"WS Ticker: Обновление для {symbol}@{exchange_id.upper()}.")
+                                # else:
+                                     # logger.debug(f"WS Ticker: Биржа {exchange_id.upper()} отсутствует в current_market_data. Пропускаем обновление для {symbol}.")
 
 
-                            except Exception as validation_error:
-                                # Ошибка при создании Pydantic модели или при работе с _data_lock
-                                logger.warning(f"WS Ticker: Ошибка валидации/создания модели или записи для {symbol}@{exchange_id.upper()}: {validation_error}. Данные: {ticker_data}. Пропускаем обновление.")
-                                # Продолжаем цикл async for
+                        except Exception as validation_error:
+                            # Ошибка при создании Pydantic модели или при работе с _data_lock
+                            logger.warning(f"WS Ticker: Ошибка валидации/создания модели или записи для {symbol}@{exchange_id.upper()}: {validation_error}. Данные: {ticker_data}. Пропускаем обновление.")
+                            # Продолжаем цикл async for
 
-                         else:
-                              logger.warning(f"WS Ticker: Получены некорректные числовые поля для {symbol}@{exchange_id.upper()}. Данные: {ticker_data}. Пропускаем обновление.")
-                              # Продолжаем цикл async for
+                     else:
+                          logger.warning(f"WS Ticker: Получены некорректные числовые поля для {symbol}@{exchange_id.upper()}. Данные: {ticker_data}. Пропускаем обновление.")
+                          # Продолжаем цикл async for
 
-                    # else:
-                         # logger.debug(f"WS Ticker: Получено пустое обновление для {symbol}@{exchange_id.upper()}.")
-                         # Продолжаем цикл async for
+                # else:
+                     # logger.debug(f"WS Ticker: Получено пустое обновление для {symbol}@{exchange_id.upper()}.")
+                     # Продолжаем цикл async for
 
              except asyncio.CancelledError:
                   # Ловится при отмене задачи _watch_ticker_for_pair родительской задачей _watch_exchange
