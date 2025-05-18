@@ -959,6 +959,7 @@ class MarketDataService:
                 end_time = time.time()
                 scan_duration = end_time - start_time
                 logger.info(f"\n--- Сканер (Net прибыль >= {MIN_PROFIT_PCT}%): Найдено {len(self.latest_opportunities)} возможностей (Время сканирования: {scan_duration:.4f} сек) ---")
+                logger.info(f"market_data_for_scanner snapshot: {list(market_data_for_scanner.keys())}")
                 if self.latest_opportunities:
                     # Логируем первые несколько найденных возможностей с Net прибылью
                     # Используем f-строки для форматирования вывода

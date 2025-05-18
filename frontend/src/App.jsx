@@ -5,7 +5,6 @@ import OpportunityTable from './components/OpportunityTable';
 import OpportunityDetails from './components/OpportunityDetails';
 import MonitoredList from './components/MonitoredList'; // MonitoredList теперь получает тикеры polling'ом локально
 import HomePage from './components/HomePage';
-import FilterModal from './components/FilterModal';
 import SettingsModal from './components/SettingsModal';
 import Pagination from './components/Pagination';
 import SearchInput from './components/SearchInput';
