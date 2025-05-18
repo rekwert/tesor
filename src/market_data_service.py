@@ -656,52 +656,52 @@ class MarketDataService:
             try:
                  # watch_order_book возвращает асинхронный генератор, который выдает обновления книги ордеров.
                  # ccxt.pro заботится о поддержании соединения и переподключениях.
-                 async for order_book_data in exchange.watch_order_book(symbol, limit=WS_ORDER_BOOK_DEPTH):
-                     # order_book_data - это словарь, возвращаемый ccxt.pro parse_order_book
-                     if order_book_data:
-                         # Проверяем базовую структуру данных
-                         if isinstance(order_book_data, dict) and \
-                            isinstance(order_book_data.get('bids'), list) and \
-                            isinstance(order_book_data.get('asks'), list):
+                 order_book_data = await exchange.watch_order_book(symbol, limit=WS_ORDER_BOOK_DEPTH)
+                 # order_book_data - это словарь, возвращаемый ccxt.pro parse_order_book
+                 if order_book_data:
+                     # Проверяем базовую структуру данных
+                     if isinstance(order_book_data, dict) and \
+                        isinstance(order_book_data.get('bids'), list) and \
+                        isinstance(order_book_data.get('asks'), list):
 
-                             # Создаем экземпляр NormalizedOrderBook Pydantic модели
-                             # Дополнительная валидация данных уровней происходит при создании модели
-                             try:
-                                 normalized_ob_pydantic = NormalizedOrderBook(
-                                     exchange=exchange_id,
-                                     symbol=order_book_data.get('symbol', symbol), # Используем символ из данных, если есть
-                                     bids=order_book_data.get('bids', []), # Используем .get с пустым списком по умолчанию
-                                     asks=order_book_data.get('asks', []),
-                                     timestamp=order_book_data.get('timestamp'),
-                                     datetime=order_book_data.get('datetime'),
-                                     # Добавьте другие поля OB, если нужны в модели
-                                 )
+                         # Создаем экземпляр NormalizedOrderBook Pydantic модели
+                         # Дополнительная валидация данных уровней происходит при создании модели
+                         try:
+                             normalized_ob_pydantic = NormalizedOrderBook(
+                                 exchange=exchange_id,
+                                 symbol=order_book_data.get('symbol', symbol), # Используем символ из данных, если есть
+                                 bids=order_book_data.get('bids', []), # Используем .get с пустым списком по умолчанию
+                                 asks=order_book_data.get('asks', []),
+                                 timestamp=order_book_data.get('timestamp'),
+                                 datetime=order_book_data.get('datetime'),
+                                 # Добавьте другие поля OB, если нужны в модели
+                             )
 
-                                 # Получение блокировки для безопасной записи
-                                 async with self._data_lock:
-                                     # Проверяем, что запись для этой биржи все еще существует в общем хранилище.
-                                     # Это предотвращает ошибки записи, если родительская задача (_watch_exchange)
-                                     # уже удалила запись биржи из-за критической ошибки или отключения.
-                                     if exchange_id in self.current_market_data:
-                                         # Сохраняем нормализованный OB под локом
-                                         self.current_market_data[exchange_id][ob_data_key] = normalized_ob_pydantic
-                                         logger.debug(f"WS OB: Обновление для {symbol}@{exchange_id.upper()}.")
-                                     # else:
-                                         # logger.debug(f"WS OB: Биржа {exchange_id.upper()} отсутствует в current_market_data. Пропускаем обновление для {symbol}.")
+                             # Получение блокировки для безопасной записи
+                             async with self._data_lock:
+                                 # Проверяем, что запись для этой биржи все еще существует в общем хранилище.
+                                 # Это предотвращает ошибки записи, если родительская задача (_watch_exchange)
+                                 # уже удалила запись биржи из-за критической ошибки или отключения.
+                                 if exchange_id in self.current_market_data:
+                                     # Сохраняем нормализованный OB под локом
+                                     self.current_market_data[exchange_id][ob_data_key] = normalized_ob_pydantic
+                                     logger.debug(f"WS OB: Обновление для {symbol}@{exchange_id.upper()}.")
+                                 # else:
+                                     # logger.debug(f"WS OB: Биржа {exchange_id.upper()} отсутствует в current_market_data. Пропускаем обновление для {symbol}.")
 
 
-                             except Exception as validation_error:
-                                 # Ошибка при создании Pydantic модели или при работе с _data_lock
-                                 logger.warning(f"WS OB: Ошибка валидации/создания модели или записи для {symbol}@{exchange_id.upper()}: {validation_error}. Данные: {order_book_data}. Пропускаем обновление.")
-                                 # Продолжаем цикл async for, чтобы получить следующее обновление
+                         except Exception as validation_error:
+                             # Ошибка при создании Pydantic модели или при работе с _data_lock
+                             logger.warning(f"WS OB: Ошибка валидации/создания модели или записи для {symbol}@{exchange_id.upper()}: {validation_error}. Данные: {order_book_data}. Пропускаем обновление.")
+                             # Продолжаем цикл async for, чтобы получить следующее обновление
 
-                         else:
-                             logger.warning(f"WS OB: Получены некорректные данные (не dict с bids/asks) для {symbol}@{exchange_id.upper()}. Пропускаем обновление: {order_book_data}.")
-                             # Продолжаем цикл async for
-
-                    # else:
-                         # logger.debug(f"WS OB: Получено пустое обновление для {symbol}@{exchange_id.upper()}.")
+                     else:
+                         logger.warning(f"WS OB: Получены некорректные данные (не dict с bids/asks) для {symbol}@{exchange_id.upper()}. Пропускаем обновление: {order_book_data}.")
                          # Продолжаем цикл async for
+
+                # else:
+                     # logger.debug(f"WS OB: Получено пустое обновление для {symbol}@{exchange_id.upper()}.")
+                     # Продолжаем цикл async for
 
             except asyncio.CancelledError:
                  # Ловится при отмене задачи _watch_order_book_for_pair родительской задачей _watch_exchange
